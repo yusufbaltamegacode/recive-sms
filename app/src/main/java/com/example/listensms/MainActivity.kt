@@ -1,18 +1,13 @@
 package com.example.listensms
 
 import android.Manifest
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Telephony
 import android.view.View
 import android.widget.Button
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,15 +17,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS), 123)
         smsManeger.checkPermission(this,this);
-        startService(Intent(applicationContext, MyService::class.java))
+        val serviceIntent = Intent(this, SmsListenerService::class.java)
+        val serviceIntent1 = Intent(this, MyService::class.java)
+     //   this.startService(serviceIntent)
+
+        this.startForegroundService(serviceIntent1)
 
        button = findViewById(R.id.btn_send_push)
-        button.setOnClickListener(View.OnClickListener {
+       button.setOnClickListener(View.OnClickListener {
 
-            NetworkService().makeRequest()
+            NetworkService().makeRequest("asdf")
         })
     }
 
